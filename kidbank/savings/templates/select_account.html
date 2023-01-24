@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for account in accounts %}
+<h1>{{ account.owner.username }}</h1>
+<a href={% url 'account_details' account.uuid %}>Go</a>
+{% endfor %}
+{% endblock content %}
