@@ -1,8 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% for account in accounts %}
-<h1>{{ account.owner.username }}</h1>
-<a href={% url 'account_details' account.uuid %}>Go</a>
-{% endfor %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mb-3">Select an account below</h1>
+        </div>
+    </div>
+    {% for account in accounts %}
+        <div class="row">
+            <div class="col">
+                <div class="lead"><a href={% url 'account_details' account.uuid %}>{{ account.owner.username|capfirst }}</a></div>
+            </div>
+            <div class="col">
+                <div class="lead mb-2">Balance: ${{ account.balance|floatformat:2 }}</div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 {% endblock content %}

@@ -2,6 +2,64 @@
 
 {% block content %}
 
-
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <a href={% url 'select_account' %}>Back</a>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <h1>Account Details</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p class="fs-1">{{ account.owner.username|capfirst }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p class="fs-1">Balance: ${{ account.balance|floatformat:2 }}</p>
+        </div>
+    </div>
+    {% if perms.savings.add_deposit %}
+        <div class="row mb-4">
+            <div class="col">
+                <a href={% url 'deposit' account.uuid %} class="btn btn-success">Deposit</a>
+            </div>
+            <div class="col">
+                <a href={% url 'withdrawal' account.uuid %} class="btn btn-warning">Withdrawal</a>
+            </div>
+        </div>
+    
+    {% endif %}
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Transaction</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in account.transaction_set.all|slice:":5" %}
+                        <tr>
+                            <td>{{ transaction.get_type_display }}</td>
+                            {% if transaction.get_type_display == "Deposit" %}
+                                <td>&nbsp;${{ transaction.amount }}</td>
+                            {% else %}
+                                <td>-${{ transaction.amount }}</td>
+                            {% endif %}
+                            <td>{{ transaction.timestamp|date:"d M Y" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}

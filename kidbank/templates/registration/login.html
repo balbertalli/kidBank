@@ -3,26 +3,34 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<h2 class="mb-2">Log In</h2>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      
+      <h2 class="mb-2">Log In</h2>
 
-{% if form.errors %}
-<p class="text-danger">Your username and password didn't match. Please try again.</p>
-{% endif %}
+      {% if form.errors %}
+      <p class="text-danger">Your username and password didn't match. Please try again.</p>
+      <p>{{ form.errors }}</p>
+      {% endif %}
 
-<form method="post" action={% url 'login' %}>
-  {% csrf_token %}
-  <div class="form-group">
-    <label for="username" class="form-label">{{ form.username.label }}: </label>
-    {{ form.username|add_class:"form-control" }}
+      <form method="post" action={% url 'login' %}>
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="username" class="form-label">{{ form.username.label }}: </label>
+          {{ form.username|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">{{ form.password.label }}: </label>
+          {{ form.password|add_class:"form-control" }}
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary mt-4">Log In</button>
+        </div>
+        <input type="hidden" name="next" value="{% url 'select_account' %}">
+      </form>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="password" class="form-label">{{ form.password.label }}: </label>
-    {{ form.password|add_class:"form-control" }}
-  </div>
-  <div class="d-grid">
-    <button type="submit" class="btn btn-primary mt-4">Log In</button>
-  </div>
-  <input type="hidden" name="next" value="{% url 'select_account' %}">
-</form>
+</div>
 {% endblock content %}
 
