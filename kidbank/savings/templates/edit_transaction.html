@@ -6,17 +6,22 @@
 <div class="container">
     <div class="row mb-2">
         <div class="col">
-            <a href={% url 'account_details' account.uuid %}>Back</a>
+            <a href={% url 'account_details' transaction.account.uuid %}>Back</a>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <h2 class="mb-2">Deposit</h2>
+            {% if transaction.type == 0 %}
+                <h2 class="mb-2">Withdrawal</h2>
+            {% else %}
+                <h2 class="mb-2">Deposit</h2>
+            {% endif %}
+            
             {% if form.errors %}
-                <p class="text-danger">Please enter an amount to deposit</p>
+                <p class="text-danger">Please enter an amount</p>
             {% endif %}
 
-            <form method="post" action={% url 'deposit' account.uuid %}>
+            <form method="post" action={% url 'edit_transaction' transaction.id %}>
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="amount" class="form-label">{{ form.amount.label }}: </label>
@@ -27,7 +32,8 @@
                     {{ form.memo|add_class:"form-control" }}
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success mt-2">Make deposit</button>
+                    <button type="submit" class="btn btn-success mt-2">Save</button>
+                    <a href={% url 'delete_transaction' transaction.id %} class="btn btn-danger mt-2">Delete</a>
                 </div>
             </form>
         </div>

@@ -4,9 +4,14 @@
 
 {% block content %}
 <div class="container">
+    <div class="row mb-2">
+        <div class="col">
+            <a href={% url 'account_details' account.uuid %}>Back</a>
+        </div>
+    </div>
     <div class="row">
         <div class="col">
-            <h2 class="mb-2">Deposit</h2>
+            <h2 class="mb-2">Withdrawal</h2>
             {% if form.errors %}
                 <p class="text-danger">Please enter an amount to withdraw</p>
             {% endif %}
@@ -18,7 +23,7 @@
                     {{ form.amount|add_class:"form-control" }}
                 </div>
                 <div class="form-group">
-                    <label for="memo" class="form-label">{{ form.memo.label }}: </label>
+                    <label for="memo" class="form-label">{{ form.memo.label }} (optional): </label>
                     {{ form.memo|add_class:"form-control" }}
                 </div>
                 <div class="form-group">

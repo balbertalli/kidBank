@@ -49,4 +49,22 @@ def withdrawal(request, uuid):
     else:
         form = TransactionForm()
         return render(request, 'withdrawal.html', {'form': form, 'account': account})
+
+
+@login_required
+def edit_transaction(request, transaction_id):
+    transaction = Transaction.objects.get(pk=transaction_id)
+    if request.method == 'POST':
+        form = TransactionForm(request.POST, instance=transaction)
+        form.save()
+        return redirect('account_details', uuid=transaction.account.uuid)
+    else:
+        form = TransactionForm(instance=transaction)
+        return render(request, 'edit_transaction.html', {'form': form, 'transaction': transaction })
     
+    
+@login_required
+def delete_transaction(request, transaction_id):
+    transaction = Transaction.objects.get(pk=transaction_id)
+    transaction.delete()
+    return redirect('account_details', uuid=transaction.account.uuid)
