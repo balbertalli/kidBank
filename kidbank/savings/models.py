@@ -32,7 +32,7 @@ class Transaction(models.Model):
     memo = models.TextField(blank=True)
         
     def __str__(self):
-        return f'{self.account.owner.username} / {self.timestamp.date()} / ${self.amount}'
+        return f'{self.account.owner.username} - ${self.amount} - {self.timestamp.date()}'
         
     class Meta:
         ordering = ['-timestamp']
