@@ -17,7 +17,7 @@
                 </div>
                 <div class="card-body">
                     <div class="fs-2 mb-4">Balance: ${{ account.balance|floatformat:2 }}</div class="fs-4">
-                    {% if perms.savings.add_deposit %}
+                    {% if perms.savings.add_transaction %}
                         <div class="d-grid gap-2">
                             <a href={% url 'deposit' account.uuid %} class="btn btn-success">Deposit +</a>
                             <a href={% url 'withdrawal' account.uuid %} class="btn btn-warning">Withdraw -</a>
@@ -35,7 +35,7 @@
                         <th scope="col">Amount</th>
                         <th scope="col">Date</th>
                         <th scope="col">Memo</th>
-                        {% if perms.savings.add_deposit %}
+                        {% if perms.savings.add_transaction %}
                         <th scope="col"></th>
                         {% endif %}
                     </tr>
@@ -55,7 +55,7 @@
                                 <a href="#" data-bs-toggle="tooltip" data-bs-title="{{ transaction.memo }}">Memo</a></td>
                                 {% endif %}
                             </td>    
-                            {% if perms.savings.add_deposit %}
+                            {% if perms.savings.add_transaction %}
                             <td><a href={% url 'edit_transaction' transaction.id %}>Edit/Delete</a></td>
                             {% endif %}
                         </tr>
