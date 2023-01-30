@@ -13,10 +13,10 @@ class Account(models.Model):
     def balance(self):
         deposits = self.transaction_set.filter(type=1).aggregate(models.Sum('amount'))
         withdrawals = self.transaction_set.filter(type=0).aggregate(models.Sum('amount'))
-        if deposits is None:
-            deposits = 0
-        if withdrawals is None:
-            withdrawals = 0
+        if deposits['amount__sum'] is None:
+            deposits['amount__sum'] = 0
+        if withdrawals['amount__sum'] is None:
+            withdrawals['amount__sum'] = 0
         balance = deposits['amount__sum'] - withdrawals['amount__sum']
         return balance
     
