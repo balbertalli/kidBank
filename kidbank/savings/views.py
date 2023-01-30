@@ -11,7 +11,7 @@ def index(request):
 @login_required
 def select_account(request):
     permissions = request.user.get_all_permissions()
-    if not 'savings.add_deposit' in permissions:
+    if not 'savings.add_transaction' in permissions:
         accounts = Account.objects.filter(owner=request.user)
     else:
         accounts = Account.objects.all()
