@@ -28,40 +28,42 @@
         </div>
         <div class="col-lg">
             <h5>Recent Transactions</h5>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Transaction</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Memo</th>
-                        {% if perms.savings.add_transaction %}
-                        <th scope="col"></th>
-                        {% endif %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for transaction in account.transaction_set.all|slice:":5" %}
+            <div class="table-responsive-sm">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>{{ transaction.get_type_display }}</td>
-                            {% if transaction.get_type_display == "Deposit" %}
-                                <td>&nbsp;${{ transaction.amount }}</td>
-                            {% else %}
-                                <td>-${{ transaction.amount }}</td>
-                            {% endif %}
-                            <td>{{ transaction.timestamp|date:"d M Y" }}</td>
-                            <td>
-                                {% if transaction.memo %}
-                                <a href="#" data-bs-toggle="tooltip" data-bs-title="{{ transaction.memo }}">Memo</a></td>
-                                {% endif %}
-                            </td>    
+                            <th scope="col">Transaction</th>
+                            <th scope="col">Amount</th>
+                            <th class="d-none d-sm-table-cell" scope="col">Date</th>
+                            <th class="d-none d-sm-table-cell" scope="col">Memo</th>
                             {% if perms.savings.add_transaction %}
-                            <td><a href={% url 'edit_transaction' transaction.id %}>Edit/Delete</a></td>
+                            <th scope="col"></th>
                             {% endif %}
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for transaction in account.transaction_set.all|slice:":5" %}
+                            <tr>
+                                <td>{{ transaction.get_type_display }}</td>
+                                {% if transaction.get_type_display == "Deposit" %}
+                                    <td>&nbsp;${{ transaction.amount }}</td>
+                                {% else %}
+                                    <td>-${{ transaction.amount }}</td>
+                                {% endif %}
+                                <td class="d-none d-sm-table-cell">{{ transaction.timestamp|date:"d M" }}</td>
+                                <td class="d-none d-sm-table-cell">
+                                    {% if transaction.memo %}
+                                    <a href="#" data-bs-toggle="tooltip" data-bs-title="{{ transaction.memo }}">Memo</a></td>
+                                    {% endif %}
+                                </td>    
+                                {% if perms.savings.add_transaction %}
+                                <td><a href={% url 'edit_transaction' transaction.id %}>Edit/Delete</a></td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="row">
